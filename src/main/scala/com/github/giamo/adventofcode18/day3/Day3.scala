@@ -5,16 +5,16 @@ import com.github.giamo.adventofcode18.Utils._
 object Day3 extends App {
 
   val input = getInputLinesAsStream("day3_input")
-  printSolutions(puzzle1(input), puzzle2(input))
+  printSolutions(part1(input), part2(input))
 
-  def puzzle1(lines: Seq[String]): Int = {
+  def part1(lines: Seq[String]): Int = {
     val rectangles = lines.map(l => parseRectangle(l))
     val matrix = fillInMatrix(rectangles)
 
     matrix.map(a => a.count(_ > 1)).sum
   }
 
-  def puzzle2(lines: Seq[String]): Int = {
+  def part2(lines: Seq[String]): Int = {
     val rectangles = lines.map(l => parseRectangle(l))
     val matrix = fillInMatrix(rectangles)
 

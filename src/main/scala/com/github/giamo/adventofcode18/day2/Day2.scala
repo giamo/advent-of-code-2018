@@ -6,9 +6,9 @@ import com.github.giamo.adventofcode18.Utils._
 object Day2 extends App {
 
   val input = getInputLinesAsStream("day2_input")
-  printSolutions(puzzle1(input), puzzle2(input))
+  printSolutions(part1(input), part2(input))
 
-  def puzzle1(ids: Seq[String]): Int = {
+  def part1(ids: Seq[String]): Int = {
     val (occurrences2, occurrences3) = ids
       .map(twoAndThreeCharsOccurence)
       .foldLeft((0, 0)) {
@@ -21,7 +21,7 @@ object Day2 extends App {
     occurrences2 * occurrences3
   }
 
-  def puzzle2(ids: Seq[String]): String = {
+  def part2(ids: Seq[String]): String = {
     findRightBoxes(ids) match {
       case Seq(box1, box2) => commonLetters(box1, box2)
       case Seq() => throw new Exception("no solution")

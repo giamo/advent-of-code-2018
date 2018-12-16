@@ -6,14 +6,14 @@ import com.github.giamo.adventofcode18.Utils._
 object Day5 extends App {
 
   val input = getInputLinesAsStream("day5_input").head
-  printSolutions(puzzle1(input), puzzle2(input))
+  printSolutions(part1(input), part2(input))
 
-  def puzzle1(input: String): Int = {
+  def part1(input: String): Int = {
     val polymerAfterReaction = react(input)
     polymerAfterReaction.length
   }
 
-  def puzzle2(input: String): Int = {
+  def part2(input: String): Int = {
     findDistinctUnits(input).map { u =>
       val polymerWithoutUnit = removeUnit(input, u)
       val polymerAfterReaction = react(polymerWithoutUnit)

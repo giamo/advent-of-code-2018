@@ -1,7 +1,6 @@
 package com.github.giamo.adventofcode18.day6
 
 import com.github.giamo.adventofcode18.Utils._
-
 import scala.annotation.tailrec
 
 object Day6 extends App {

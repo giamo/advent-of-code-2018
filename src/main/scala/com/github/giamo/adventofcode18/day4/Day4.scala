@@ -6,9 +6,9 @@ import com.github.giamo.adventofcode18.Utils._
 object Day4 extends App {
 
   val input = getInputLinesAsStream("day4_input")
-  printSolutions(puzzle1(input), puzzle2(input))
+  printSolutions(part1(input), part2(input))
 
-  def puzzle1(lines: Seq[String]): Long = {
+  def part1(lines: Seq[String]): Long = {
     val recordEntries = lines.map(parseLogRecord)
     val sortedEntries = recordEntries.sortBy(e => s"${e.date} ${e.hour}:${e.minute}")
     val guardsStats = findGuardsStats(sortedEntries)
@@ -19,7 +19,7 @@ object Day4 extends App {
     sleepiestGuardStats.guardId * mostAsleepMinute
   }
 
-  def puzzle2(lines: Seq[String]): Long = {
+  def part2(lines: Seq[String]): Long = {
     val recordEntries = lines.map(parseLogRecord)
     val sortedEntries = recordEntries.sortBy(e => s"${e.date} ${e.hour}:${e.minute}")
     val guardsStats = findGuardsStats(sortedEntries)

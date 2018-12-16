@@ -6,9 +6,9 @@ import com.github.giamo.adventofcode18.Utils._
 object Day1 extends App {
 
   val input = getInputLinesAsStream("day1_input")
-  printSolutions(puzzle1(input), puzzle2(input))
+  printSolutions(part1(input), part2(input))
 
-  def puzzle1(lines: Seq[String]): Long = {
+  def part1(lines: Seq[String]): Long = {
     @tailrec
     def solveRec(remaining: Seq[String], incr: Long): Long = remaining match {
       case Seq(v, tail @ _*) => solveRec(tail, incr + v.toLong)
@@ -18,7 +18,7 @@ object Day1 extends App {
     solveRec(lines, 0)
   }
 
-  def puzzle2(lines: Seq[String]): Long = {
+  def part2(lines: Seq[String]): Long = {
     @tailrec
     def solveRec(remaining: Seq[String], incr: Long, seen: Set[Long]): Long = remaining match {
       case Seq(v, tail @ _*) =>
