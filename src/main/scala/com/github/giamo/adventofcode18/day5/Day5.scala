@@ -13,13 +13,12 @@ object Day5 extends App {
     polymerAfterReaction.length
   }
 
-  def part2(input: String): Int = {
+  def part2(input: String): Int =
     findDistinctUnits(input).map { u =>
-      val polymerWithoutUnit = removeUnit(input, u)
+      val polymerWithoutUnit   = removeUnit(input, u)
       val polymerAfterReaction = react(polymerWithoutUnit)
       polymerAfterReaction.length
     }.min
-  }
 
   private def removeUnit(polymer: String, unit: Char) =
     polymer.replaceAll(unit.toLower.toString, "").replaceAll(unit.toUpper.toString, "")
@@ -32,7 +31,7 @@ object Day5 extends App {
       case _ if !doesPairReact(p(0), p(1)) =>
         reactRec(removeFirstNElements(p, 1), output.append(p(0)))
       case _ if doesPairReact(p(0), p(1)) && output.nonEmpty =>
-        reactRec(output.last + removeFirstNElements (p, 2), removeLastElement(output))
+        reactRec(output.last + removeFirstNElements(p, 2), removeLastElement(output))
       case _ if doesPairReact(p(0), p(1)) && output.isEmpty =>
         reactRec(removeFirstNElements(p, 2), output)
     }
@@ -40,12 +39,11 @@ object Day5 extends App {
     reactRec(polymer, new StringBuilder()).toString
   }
 
-  private def doesPairReact(unit1: Char, unit2: Char): Boolean = {
+  private def doesPairReact(unit1: Char, unit2: Char): Boolean =
     unit1.toLower == unit2.toLower && (
       (unit1.isLower && unit2.isUpper) ||
-      (unit1.isUpper && unit2.isLower)
+        (unit1.isUpper && unit2.isLower)
     )
-  }
 
   private def findDistinctUnits(chain: Seq[Char]): Seq[Char] = chain.map(_.toLower).distinct
 

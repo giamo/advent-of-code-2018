@@ -11,10 +11,10 @@ object Day4 extends App {
   def part1(lines: Seq[String]): Long = {
     val recordEntries = lines.map(parseLogRecord)
     val sortedEntries = recordEntries.sortBy(e => s"${e.date} ${e.hour}:${e.minute}")
-    val guardsStats = findGuardsStats(sortedEntries)
+    val guardsStats   = findGuardsStats(sortedEntries)
 
     val sleepiestGuardStats = guardsStats.maxBy(_._2.totalMinutesAsleep)._2
-    val mostAsleepMinute = sleepiestGuardStats.minutesMap.maxBy(_._2)._1
+    val mostAsleepMinute    = sleepiestGuardStats.minutesMap.maxBy(_._2)._1
 
     sleepiestGuardStats.guardId * mostAsleepMinute
   }
@@ -22,10 +22,11 @@ object Day4 extends App {
   def part2(lines: Seq[String]): Long = {
     val recordEntries = lines.map(parseLogRecord)
     val sortedEntries = recordEntries.sortBy(e => s"${e.date} ${e.hour}:${e.minute}")
-    val guardsStats = findGuardsStats(sortedEntries)
+    val guardsStats   = findGuardsStats(sortedEntries)
 
-    val guardsByMaxAsleepSameMinute: Map[Long, (Int, Int)] = guardsStats.map { case (k, v) =>
-      k -> v.minutesMap.maxBy(_._2)
+    val guardsByMaxAsleepSameMinute: Map[Long, (Int, Int)] = guardsStats.map {
+      case (k, v) =>
+        k -> v.minutesMap.maxBy(_._2)
     }
 
     val guardMostAsleepSameMinute = guardsByMaxAsleepSameMinute.maxBy(_._2._2)
@@ -43,7 +44,10 @@ object Day4 extends App {
     }
 
     @tailrec
-    def findGuardsStatsRec(entries: Seq[LogRecord], guardStatsMap: Map[Long, GuardStats], currentGuard: Long, lastFellAsleepMinute: String): Map[Long, GuardStats] = entries match {
+    def findGuardsStatsRec(entries: Seq[LogRecord],
+                           guardStatsMap: Map[Long, GuardStats],
+                           currentGuard: Long,
+                           lastFellAsleepMinute: String): Map[Long, GuardStats] = entries match {
       case Seq() => guardStatsMap
 
       case Seq(e: BeginsShiftRecord, tail @ _*) =>
@@ -57,10 +61,11 @@ object Day4 extends App {
         val seqMinutesAsleep = minutesRangeToSequence(lastFellAsleepMinute.toInt, e.minute.toInt)
 
         val updatedGuardStats = guardStatsMap.get(currentGuard) match {
-          case Some(g) => g.copy(
-            totalMinutesAsleep = g.totalMinutesAsleep + numMinutesAsleep,
-            minutesMap = updateMinutesMapRec(seqMinutesAsleep, g.minutesMap)
-          )
+          case Some(g) =>
+            g.copy(
+              totalMinutesAsleep = g.totalMinutesAsleep + numMinutesAsleep,
+              minutesMap = updateMinutesMapRec(seqMinutesAsleep, g.minutesMap)
+            )
           case None =>
             GuardStats(currentGuard, numMinutesAsleep, updateMinutesMapRec(seqMinutesAsleep, Map()))
         }
@@ -68,7 +73,7 @@ object Day4 extends App {
         val updatedMap = guardStatsMap + (currentGuard -> updatedGuardStats)
         findGuardsStatsRec(tail, updatedMap, currentGuard, e.minute)
 
-      case Seq(e, _ @ _*) =>
+      case Seq(e, _ @_*) =>
         throw new Exception(s"unhandled LogRecord event: ${e.getClass}")
     }
 
@@ -76,13 +81,13 @@ object Day4 extends App {
   }
 
   private def parseLogRecord(line: String) = {
-    val recordRegex = "\\[(\\d{4}\\-\\d{2}\\-\\d{2}) (\\d{2}):(\\d{2})\\] (.*)".r
+    val recordRegex             = "\\[(\\d{4}\\-\\d{2}\\-\\d{2}) (\\d{2}):(\\d{2})\\] (.*)".r
     val recordRegex(d, h, m, e) = line
     e match {
       case "falls asleep" => FallsAsleepRecord(d, h, m)
-      case "wakes up" => WakesUpRecord(d, h, m)
+      case "wakes up"     => WakesUpRecord(d, h, m)
       case other =>
-        val beginsShiftRegex = "Guard #(\\d+) begins shift".r
+        val beginsShiftRegex          = "Guard #(\\d+) begins shift".r
         val beginsShiftRegex(guardId) = other
         BeginsShiftRecord(d, h, m, guardId.toLong)
     }
@@ -97,7 +102,8 @@ trait LogRecord {
   val minute: String
 }
 
-case class BeginsShiftRecord(date: String, hour: String, minute: String, guardId: Long) extends LogRecord
+case class BeginsShiftRecord(date: String, hour: String, minute: String, guardId: Long)
+    extends LogRecord
 
 case class FallsAsleepRecord(date: String, hour: String, minute: String) extends LogRecord
 

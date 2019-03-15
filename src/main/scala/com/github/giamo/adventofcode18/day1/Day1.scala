@@ -12,7 +12,7 @@ object Day1 extends App {
     @tailrec
     def solveRec(remaining: Seq[String], incr: Long): Long = remaining match {
       case Seq(v, tail @ _*) => solveRec(tail, incr + v.toLong)
-      case Seq() => incr
+      case Seq()             => incr
     }
 
     solveRec(lines, 0)
